@@ -2,9 +2,9 @@ import { FC } from "react";
 import { useCounterContext } from "../useCounterContext";
 
 interface CountProps {
-  max: number;
+  max?: number;
 }
-export const Count: FC<CountProps> = ({ max }) => {
+export const Count: FC<CountProps> = ({ max }: CountProps) => {
   const { count } = useCounterContext();
   const hasError = max ? count > max : false;
 
