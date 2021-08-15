@@ -1,11 +1,18 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Counter } from "./Counter";
 
 function App() {
+  const handleChangeCounter = (count: number) => {
+    console.log("count", count);
+  };
+
   return (
-    <div className="p-4 bg-gray-100">
-      <h1 className="text-2xl font-medium">Hello World</h1>
+    <div className="h-screen flex items-center justify-center overscroll-y-auto bg-gray-800">
+      <Counter onChange={handleChangeCounter}>
+        <Counter.Decrement />
+        <Counter.Label>Counter</Counter.Label>
+        <Counter.Count max={10} />
+        <Counter.Increment />
+      </Counter>
     </div>
   );
 }
