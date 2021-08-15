@@ -7,22 +7,10 @@ import { CounterProvider } from "./useCounterContext";
 
 interface CounterProps {
   children: ReactNode;
-  onChange: Function;
-  initialValue?: number;
+  onChange?: Function;
   value?: number | null;
 }
-const Counter = ({
-  children,
-  value = null,
-  onChange,
-  initialValue = 0,
-}: CounterProps) => {
-  const [count, setCount] = useState<number>(initialValue);
-
-  const isControlled: Boolean = value !== null && !!onChange;
-
-  const getCount = () => (isControlled ? value : count);
-
+const Counter = ({ children, value: count, onChange }: CounterProps) => {
   const firstMount = useRef(true);
 
   useEffect(() => {
@@ -32,18 +20,8 @@ const Counter = ({
     firstMount.current = false;
   }, [count, onChange]);
 
-  const handleIncrement = () => {
-    setCount(count + 1);
-  };
-
-  const handleDecrement = () => {
-    setCount(Math.max(0, count - 1));
-  };
-
   return (
-    <CounterProvider
-      value={{ count: getCount(), handleIncrement, handleDecrement }}
-    >
+    <CounterProvider value={{ count }}>
       <div className="counter">{children}</div>
     </CounterProvider>
   );

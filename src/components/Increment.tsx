@@ -1,10 +1,14 @@
-import { useCounterContext } from "../useCounterContext";
 import { FaPlus } from "react-icons/fa";
+import { MouseEventHandler } from "react";
 
-export const Increment = () => {
-  const { handleIncrement } = useCounterContext();
+interface IncrementProps {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
+}
+
+export const Increment = ({ onClick, disabled = false }: IncrementProps) => {
   return (
-    <button className="counter-button" onClick={handleIncrement}>
+    <button disabled={disabled} className="counter-button" onClick={onClick}>
       <FaPlus />
     </button>
   );
