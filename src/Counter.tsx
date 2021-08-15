@@ -9,9 +9,20 @@ interface CounterProps {
   children: ReactNode;
   onChange: Function;
   initialValue?: number;
+  value?: number | null;
 }
-const Counter = ({ children, onChange, initialValue = 0 }: CounterProps) => {
+const Counter = ({
+  children,
+  value = null,
+  onChange,
+  initialValue = 0,
+}: CounterProps) => {
   const [count, setCount] = useState<number>(initialValue);
+
+  const isControlled: Boolean = value !== null && !!onChange;
+
+  const getCount = () => (isControlled ? value : count);
+
   const firstMount = useRef(true);
 
   useEffect(() => {
@@ -30,7 +41,9 @@ const Counter = ({ children, onChange, initialValue = 0 }: CounterProps) => {
   };
 
   return (
-    <CounterProvider value={{ count, handleIncrement, handleDecrement }}>
+    <CounterProvider
+      value={{ count: getCount(), handleIncrement, handleDecrement }}
+    >
       <div className="counter">{children}</div>
     </CounterProvider>
   );
