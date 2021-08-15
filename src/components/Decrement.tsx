@@ -6,9 +6,18 @@ interface DecrementProps {
   onClick: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
 }
-export const Decrement = ({ onClick, disabled = false }: DecrementProps) => {
+export const Decrement = ({
+  onClick,
+  disabled = false,
+  ...props
+}: DecrementProps) => {
   return (
-    <button disabled={disabled} className="counter-button" onClick={onClick}>
+    <button
+      disabled={disabled}
+      className="counter-button"
+      onClick={onClick}
+      {...props}
+    >
       <FaMinus />
     </button>
   );

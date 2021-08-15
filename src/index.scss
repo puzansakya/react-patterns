@@ -5,7 +5,7 @@
 .counter{
     @apply inline-flex border border-green-400 outline-none overflow-hidden rounded-sm self-start; 
     &-button {
-        @apply bg-white border-none rounded-none cursor-pointer focus:outline-none px-1;
+        @apply bg-white border-none rounded-none cursor-pointer focus:outline-none px-1 disabled:bg-gray-500;
     }
     &-label {
         @apply bg-gray-200  py-1 px-2;
@@ -13,7 +13,7 @@
 }
 
 .custom-increment-btn {
-     @apply bg-green-500 text-white px-3 py-2 rounded-md hover:bg-green-400;
+     @apply bg-green-500 text-white px-3 py-2 rounded-md hover:bg-green-400 disabled:bg-gray-500;
 }
 
 

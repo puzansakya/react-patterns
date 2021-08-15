@@ -6,9 +6,18 @@ interface IncrementProps {
   disabled?: boolean;
 }
 
-export const Increment = ({ onClick, disabled = false }: IncrementProps) => {
+export const Increment = ({
+  onClick,
+  disabled = false,
+  ...props
+}: IncrementProps) => {
   return (
-    <button disabled={disabled} className="counter-button" onClick={onClick}>
+    <button
+      disabled={disabled}
+      className="counter-button"
+      onClick={onClick}
+      {...props}
+    >
       <FaPlus />
     </button>
   );
