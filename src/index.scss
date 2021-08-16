@@ -16,4 +16,85 @@
      @apply bg-green-500 text-white px-3 py-2 rounded-md hover:bg-green-400 disabled:bg-gray-500;
 }
 
+.modal {
+    @apply fixed z-10 inset-0 overflow-y-auto;
 
+    &-wrapper {
+        @apply flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0;
+    }
+    
+    &-overlay {
+        @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity;
+    }
+}
+
+
+.modal-transition-enter .overlay,
+.drawer-transition-enter .overlay {
+    opacity: 0;
+}
+
+.modal-transition-enter-active .overlay,
+.drawer-transition-enter-active .overlay {
+    opacity: 1;
+    transition: opacity 500ms;
+}
+
+.modal-transition-exit-active .overlay,
+.drawer-transition-exit-active .overlay {
+    opacity: 1;
+}
+
+.modal-transition-exit-active .overlay,
+.drawer-transition-exit-active .overlay {
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+
+/* Modal Transitions */
+
+.modal-transition-enter .modal {
+    opacity: 0;
+    transform: scale(0.95) translateY(-30px);
+}
+
+.modal-transition-enter-active .modal {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    transition: opacity 120ms, transform 120ms;
+}
+
+.modal-transition-exit .modal {
+    opacity: 1;
+}
+
+.modal-transition-exit-active .modal {
+    opacity: 0;
+    transform: scale(0.95) translateY(-30px);
+    transition: opacity 200ms, transform 200ms;
+}
+
+
+/* Drawer Transitions */
+
+.drawer-transition-enter .drawer {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.drawer-transition-enter-active .drawer {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 500ms, transform 500ms;
+}
+
+.drawer-transition-exit .drawer {
+    opacity: 1;
+}
+
+.drawer-transition-exit-active .drawer {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 500ms, transform 500ms;
+}

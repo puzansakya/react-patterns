@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { Modal } from "./components/modal";
+import { ModalContent } from "./components/modalCotent";
 import { Counter } from "./Counter";
 import { useCounter } from "./useCounter";
 
 function App() {
   const MAX_COUNT = 10;
+
+  const [showModal, setShowModal] = useState(false);
 
   const { count, getCounterProps, getIncrementProps, getDecrementProps } =
     useCounter({
@@ -13,6 +17,10 @@ function App() {
 
   const handleBtn1Clicked = () => {
     console.log("btn 1 clicked");
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -37,7 +45,16 @@ function App() {
         >
           Custom increment btn 2
         </button>
+        <button
+          className="custom-increment-btn"
+          onClick={() => setShowModal(true)}
+        >
+          Open modal
+        </button>
       </div>
+      <Modal show={showModal} close={() => closeModal()}>
+        <ModalContent />
+      </Modal>
     </div>
   );
 }
