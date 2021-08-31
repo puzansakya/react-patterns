@@ -1,7 +1,13 @@
+import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
+import Content from "./Content";
+import Footer from "./footer";
+import Header from "./header";
 
-export const Modal = ({ children, show, close }: any) => {
+const Modal = ({ children, show, close }: any) => {
+  const nodeRef = useRef(null);
+
   const content = show && (
     <div className="fixed inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -34,9 +40,9 @@ export const Modal = ({ children, show, close }: any) => {
 
   return (
     <>
-      {/* {activator({ setShow })} */}
       {createPortal(
         <CSSTransition
+          nodeRef={nodeRef}
           in={show}
           timeout={120}
           classNames="modal-transition"
@@ -49,3 +55,9 @@ export const Modal = ({ children, show, close }: any) => {
     </>
   );
 };
+
+Modal.Header = Header;
+Modal.Content = Content;
+Modal.Footer = Footer;
+
+export default Modal;
