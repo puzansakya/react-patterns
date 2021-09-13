@@ -12,11 +12,12 @@ import PopperSection from "./section/popper";
 import TimePickerSection from "./section/timePicker";
 import CounterSection from "./section/counter";
 import TableSection from "./section/table";
+import DNDSection from "./section/dnd";
 
 function App() {
   return (
     <>
-      <TimePickerSection />
+      {/* <TimePickerSection /> */}
 
       {/* <CounterSection /> */}
 
@@ -27,6 +28,8 @@ function App() {
       {/* <TableSection /> */}
 
       {/* <TabSection /> */}
+
+      <DNDSection />
     </>
   );
 }
