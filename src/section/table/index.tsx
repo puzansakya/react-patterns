@@ -1,16 +1,26 @@
-import { useState } from "react";
-import { MainWrapper } from "../../components/mainWrapper.index";
-
-// STORES
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as fromPersonActions from "../../store/actions";
-import { TableComponent } from "../../components/table";
+
+// components
+import Table from "../../components/table";
 import Modal from "../../components/modal";
 import { FProvider } from "../../components/formProvider";
 import PersonForm from "../../forms/personForm";
+import { HeroIcon } from "../../components/heroicon";
+import Avatar from "../../components/avatar";
+import { MainWrapper } from "../../components/mainWrapper.index";
+
+// STORES
+import * as fromPersonActions from "../../store/actions";
+import * as fromPersonSelectors from "./../../store/selectors";
 
 const TableSection = () => {
   const dispatch = useDispatch();
+  const persons = useSelector(fromPersonSelectors.getPersons);
+
+  useEffect(() => {
+    dispatch(fromPersonActions.loadPersons());
+  }, [dispatch]);
 
   const [showModal, setShowModal] = useState(false);
   const [defaultValues, setDefaultValues] = useState<any>();
@@ -68,6 +78,120 @@ const TableSection = () => {
     }
   };
 
+  const StatusSign = ({ bg = "bg-blue-500" }) => {
+    return <div className={`w-4 h-4 rounded-full ${bg}`}></div>;
+  };
+
+  const colData = [
+    {
+      Header: "Employee",
+      accessor: "employee",
+      Cell: (tableInfo: any) => (
+        <div className="flex items-center">
+          <Avatar
+            name={`${tableInfo.data[tableInfo.row.index].employee}`}
+            imgsrc={`${tableInfo.data[tableInfo.row.index].image}`}
+          />
+
+          <div className="ml-4">
+            <div className="text-sm font-medium text-gray-900">
+              {`${tableInfo.data[tableInfo.row.index].employee}`}
+            </div>
+            <div className="text-sm text-gray-500">{`${
+              tableInfo.data[tableInfo.row.index].email
+            }`}</div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      Header: "Registered",
+      accessor: "registeredDay",
+      Cell: (tableInfo: any) => (
+        <>
+          <div className="text-sm font-medium text-gray-900">
+            {tableInfo.data[tableInfo.row.index].registeredDate}
+          </div>
+          <div className="text-sm text-gray-500 text-gray-900">
+            {tableInfo.data[tableInfo.row.index].registeredDay}
+          </div>
+        </>
+      ),
+    },
+    {
+      Header: "Ranking",
+      accessor: "ranking",
+      Cell: (tableInfo: any) => (
+        <div className="flex items-center">
+          <div className="text-sm text-gray-900">
+            {tableInfo.data[tableInfo.row.index].ranking}
+          </div>
+          <div className="flex">
+            <HeroIcon name="star" />
+            <HeroIcon name="star" />
+            <HeroIcon name="star" />
+            <HeroIcon name="star" />
+          </div>
+        </div>
+      ),
+    },
+    {
+      Header: "Status",
+      accessor: "status",
+      Cell: (tableInfo: any) => (
+        <div className="flex items-center space-x-4 text-gray-900">
+          <StatusSign bg={tableInfo.data[tableInfo.row.index].statusColor} />
+          <p
+            className={`${
+              tableInfo.data[tableInfo.row.index].statusTextColor
+            } font-semibold`}
+          >
+            {tableInfo.data[tableInfo.row.index].status}
+          </p>
+        </div>
+      ),
+    },
+    {
+      Header: "Transaction",
+      accessor: "transaction",
+      Cell: (tableInfo: any) => (
+        <div className="flex items-center space-x-4 uppercase text-gray-900">
+          <p>{tableInfo.data[tableInfo.row.index].transaction}</p>
+        </div>
+      ),
+    },
+    {
+      Header: "Division",
+      accessor: "division",
+    },
+    {
+      Header: "Location",
+      accessor: "location",
+    },
+    {
+      Header: "Progress",
+      accessor: "progress",
+    },
+    {
+      Header: "Score",
+      accessor: "score",
+    },
+    {
+      id: "edit",
+      accessor: "[row identifier to be passed to button]",
+      Cell: (tableInfo: any) => (
+        <button
+          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+          onClick={() => {
+            handlePersonEdit(tableInfo.data[tableInfo.row.index]);
+          }}
+        >
+          Edit
+        </button>
+      ),
+    },
+  ];
+
   return (
     <MainWrapper>
       <div className="flex flex-col space-y-4">
@@ -79,7 +203,7 @@ const TableSection = () => {
             Open modal
           </button>
         </div>
-        <TableComponent onPersonEdit={handlePersonEdit} />
+        <Table colData={colData} tableData={persons} />
       </div>
 
       <Modal show={showModal} close={() => closeModal()}>
