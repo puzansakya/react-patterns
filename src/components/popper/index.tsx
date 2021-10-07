@@ -1,37 +1,44 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { usePopper } from "react-popper";
 
-export const Popper = () => {
-  const [expanded, setExpanded] = useState(false);
+// HOOKS
+import { useDisclosure } from "../../hooks/useDiscloser";
+
+const Popper = ({ trigger, content, overlayClose = true, placement }: any) => {
+  const { isOpen, open, close, toggle } = useDisclosure();
 
   const [referenceElement, setReferenceElement] = useState<any>(null);
   const [popperElement, setPopperElement] = useState<any>(null);
-  const { styles, attributes } = usePopper(referenceElement, popperElement);
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    ...(placement && { placement }),
+  });
+
   return (
     <>
-      <button
-        className="custom-increment-btn"
-        ref={setReferenceElement}
-        onClick={() => {
-          setExpanded(true);
-        }}
-      >
-        Custom increment btn 2
-      </button>
-      {expanded && (
-        <div className=" fixed inset-0 " onClick={() => setExpanded(false)} />
+      {React.cloneElement(trigger, {
+        ref: (ref: any) => setReferenceElement(ref),
+        onClick: () => {
+          open();
+        },
+      })}
+
+      {isOpen && (
+        <div
+          className="fixed inset-0"
+          onClick={() => overlayClose && close()}
+        />
       )}
-      {expanded && (
+      {isOpen && (
         <div
           ref={setPopperElement}
-          style={{ ...styles.popper, zIndex: 3 }}
+          style={{ ...styles.popper, zIndex: 3, marginTop: "12px" }}
           {...attributes.popper}
         >
-          <div className="bg-white p-4">
-            <p>popper</p>
-          </div>
+          {content(isOpen, close, toggle)}
         </div>
       )}
     </>
   );
 };
+
+export default Popper;

@@ -1,5 +1,10 @@
 import { forwardRef, useEffect, useMemo, useRef } from "react";
-import { useRowSelect, useSortBy, useTable } from "react-table";
+import {
+  useRowSelect,
+  useSortBy,
+  useTable,
+  useAsyncDebounce,
+} from "react-table";
 import { HeroIcon } from "../heroicon";
 
 const IndeterminateCheckbox = forwardRef(
@@ -62,6 +67,9 @@ const Table = ({ colData, tableData }: any) => {
       ]);
     }
   );
+
+  // Debounce our onFetchData call for 100ms
+  const onFetchDataDebounced = useAsyncDebounce(() => {}, 20);
 
   return (
     <div className="flex flex-col space-y-2 text-gray-900">
